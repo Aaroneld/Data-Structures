@@ -3,6 +3,23 @@ class LinkedList:
 
     head = None
     tail = None
+
+    
+    def __len__(self):
+
+        counter = 0 
+
+        if self.head == None:
+            return 0
+        
+        currentNode = self.head
+        
+        while counter != "None":
+    
+            if(currentNode):  
+                counter += 1
+                currentNode = currentNode.node["nextNode"]
+            else: return counter
     
     def add_to_tail(self, value):
         node = Node(value)
@@ -13,19 +30,6 @@ class LinkedList:
         else :
             self.tail.addNextNode(node)
             self.tail = node
-    
-    
-    def __len__(self):
-
-        counter = 0 
-        currentNode = self.head
-
-        while counter != "None":
-            
-            if(currentNode):
-                counter += 1
-                currentNode = currentNode.node["nextNode"]
-            else: return counter
 
     def remove_head(self):
         if self.head != None:
@@ -33,10 +37,33 @@ class LinkedList:
             self.head = self.head.node["nextNode"]
             if not self.head:
                 self.tail = None
-                print(self.tail)
+    
             return value
         else: return None
     
+    def remove_tail(self):
+
+        node = self.tail;
+
+        if self.tail == self.head:
+            self.tail = self.head = None
+            return node.getValue()
+
+        currentNode = self.head
+
+        while currentNode.node["nextNode"] != None:
+        
+            if currentNode.node["nextNode"].node["nextNode"] != None:
+                currentNode = currentNode.node["nextNode"]
+            else: 
+                 currentNode.node["nextNode"] = None
+                 break;
+        
+        self.tail = currentNode
+        self.tail.node["nextNode"] = None
+        return node.getValue()
+        
+
     def contains(self, value):
         
         if(self.head):
@@ -70,6 +97,7 @@ class LinkedList:
                 return maxValue
             elif(maxValue < currentNode.getValue()):
                 maxValue = currentNode.getValue()
+
 
 
 

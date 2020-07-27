@@ -3,17 +3,7 @@ class LinkedList:
 
     head = None
     tail = None
-    
-    def add_to_tail(self, value):
-        node = Node(value)
 
-        if self.head == None:
-            self.head = node
-            self.tail = node 
-        else :
-            self.tail.addNextNode(node)
-            self.tail = node
-    
     
     def __len__(self):
 
@@ -26,6 +16,17 @@ class LinkedList:
                 counter += 1
                 currentNode = currentNode.node["nextNode"]
             else: return counter
+            
+    
+    def add_to_tail(self, value):
+        node = Node(value)
+
+        if self.head == None:
+            self.head = node
+            self.tail = node 
+        else :
+            self.tail.addNextNode(node)
+            self.tail = node
 
     def remove_head(self):
         if self.head != None:
@@ -70,6 +71,7 @@ class LinkedList:
                 return maxValue
             elif(maxValue < currentNode.getValue()):
                 maxValue = currentNode.getValue()
+
 
 
 
