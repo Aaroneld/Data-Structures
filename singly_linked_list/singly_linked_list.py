@@ -11,7 +11,7 @@ class LinkedList:
             self.head = node
             self.tail = node 
         else :
-            self.tail.addNextNode(node)
+            self.tail.next = node
             self.tail = node
     
     
@@ -75,25 +75,20 @@ class LinkedList:
 
 class Node:
 
-    value = None
-
-    def __init__(self, value):
-        self.node = {
-            'value': value,
-            'nextNode': None 
-        }
+    def __init__(self, value, next = None):
+        self.next = None
         self.value = value
 
     def addNextNode(self, node):
-        self.node["nextNode"] = node
+        self.next = node
 
     def __str__(self):
-        return str(self.node)
+        return str(self.value)
 
     def getValue(self):
-        return self.node['value']
+        return self.value
     
     def contains(self, value):
-        if self.node['value'] == value: return True
+        if self.value == value: return True
         else: return False 
 
