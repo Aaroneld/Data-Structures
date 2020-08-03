@@ -3,13 +3,21 @@ Each ListNode holds a reference to its previous node
 as well as its next node in the List.
 """
 class ListNode:
-    def __init__(self, value, prev=None, next=None):
+    def __init__(self, key, value, prev=None, next=None):
         self.prev = prev
-        self.value = value
         self.next = next
+        self.key = key
+        self.add_key(key, value)
             
     def __str__(self):
-        return f"value: {self.value}', next: {self.next}, prev: {self.prev}"
+        return f"value: {getattr(self, self.key)}"
+
+    def add_key(self, key, value = None):
+        if value != None:
+            setattr(self, key, value)
+        else:
+            setattr(self, key, key)
+
 """
 Our doubly-linked list class. It holds references to 
 the list's head and tail nodes.
@@ -43,17 +51,17 @@ class DoublyLinkedList:
     as the new head of the list. Don't forget to handle 
     the old head node's previous pointer accordingly.
     """
-    def add_to_head(self, value):
+    def add_to_head(self, key, value):
       
 
         if self.head == None:
-            self.head = self.tail = ListNode(value)
+            self.head = self.tail = ListNode(key, value)
         elif self.tail == self.head:
-            self.head = ListNode(value, None, self.tail)
+            self.head = ListNode(key, value, None, self.tail)
             self.tail.prev = self.head
         else:
             shiftedHead = self.head
-            self.head = ListNode(value, None, shiftedHead)
+            self.head = ListNode(key, value, None, shiftedHead)
             shiftedHead.prev = self.head
         
     """
@@ -66,19 +74,15 @@ class DoublyLinkedList:
         if self.head == None: 
             return None
         elif self.head == self.tail:
-            value = self.head.value
             self.head = self.tail = None
-            return value 
         elif self.length == 2:
-            value = self.head.value
             self.tail.prev = None
             self.head = self.tail
-            return value 
+           
         else:
-            value = self.head.value
             self.head = self.head.next
             self.head.prev = None
-            return value 
+         
 
             
     """
@@ -86,16 +90,39 @@ class DoublyLinkedList:
     as the new tail of the list. Don't forget to handle 
     the old tail node's next pointer accordingly.
     """
-    def add_to_tail(self, value):
+
+    def __str__(self):
+
+        currentNode = self.head
+
+        while currentNode != None:
+            if currentNode:
+                print(currentNode)
+            currentNode = currentNode.next
+
+    def contains(self, key):
+
+        currentNode = self.head;
+
+        while currentNode != None:
+
+            if currentNode and currentNode.key == key:
+                return {"node": currentNode, "value": getattr(currentNode, key)}
+
+            currentNode = currentNode.next
+        
+        return None
+
+    def add_to_tail(self, key, value):
         
         if self.tail == None:
-            self.tail = self.head = ListNode(value)
+            self.tail = self.head = ListNode(key, value)
         elif self.tail == self.head:
-            self.tail = ListNode(value, self.head)
+            self.tail = ListNode(key, value, self.head)
             self.head.next = self.tail
         else:
             shiftedTail = self.tail
-            self.tail = ListNode(value, shiftedTail)
+            self.tail = ListNode(key, value, shiftedTail)
             shiftedTail.next = self.tail
             
     """
@@ -107,19 +134,14 @@ class DoublyLinkedList:
         if self.tail == None: 
             return None;
         elif self.tail == self.head:
-            value = self.tail.value
             self.tail = self.head = None
-            return value
+
         elif self.length == 2:
-            value = self.tail.value
             self.tail = self.head
-            return value
         else:
-            value = self.tail.value 
             self.tail = self.tail.prev
             self.tail.next = None 
-            return value 
-        
+
             
     """
     Removes the input node from its current spot in the 
@@ -132,12 +154,11 @@ class DoublyLinkedList:
         elif self.length == 2:
             self.tail = self.head
             self.head.prev = None
-            self.add_to_head(node.value)
-
+            self.add_to_head(node.key, getattr(node, node.key))
         elif self.tail == node:
             self.tail = self.tail.prev
             self.tail.next = None 
-            self.add_to_head(node.value)
+            self.add_to_head(node.key, getattr(node, node.key))
         else:
             prevNode = node.prev
             nextNode = node.next
@@ -145,7 +166,7 @@ class DoublyLinkedList:
             prevNode.next = nextNode
             nextNode.prev = prevNode
 
-            self.add_to_head(node.value) 
+            self.add_to_head(node.key, getattr(node, node.key)) 
         
         
     """
@@ -158,12 +179,12 @@ class DoublyLinkedList:
         elif self.length == 2:
             self.head = self.tail
             self.head.prev = None
-            self.add_to_tail(node.value)
+            self.add_to_tail(node.key, getattr(node, node.key))
 
         elif self.head == node:
             self.head = self.head.next
             self.head.prev = None
-            self.add_to_tail(node.value)
+            self.add_to_tail(node.key, getattr(node, node.key))
         else:
             prevNode = node.prev
             nextNode = node.next
@@ -171,7 +192,7 @@ class DoublyLinkedList:
             prevNode.next = nextNode
             nextNode.prev = prevNode
 
-            self.add_to_tail(node.value)
+            self.add_to_tail(node.key, getattr(node, node.key))
 
     """
     Deletes the input node from the List, preserving the 
@@ -220,3 +241,11 @@ class DoublyLinkedList:
                 currentNode = currentNode.next 
             
             return currentMax
+
+
+# dll = DoublyLinkedList(ListNode("key1", 1))
+# dll.add_to_tail("key2", 2)
+# dll.add_to_tail("key3", 3)
+# dll.add_to_tail("key4", 4)
+
+# print(dll.contains("key5"))

@@ -171,13 +171,13 @@ class BSTNode:
             if currentNode.left:
                 queue.insert(1, currentNode.left)
 
-            if len(queue) > 0:
-                print(queue.pop(0))
+        
+            print(queue.pop(0))
 
-                if len(queue) > 0:
-                    currentNode = queue[0]
-                else:
-                    currentNode = None
+            if len(queue) > 0:
+                currentNode = queue[0]
+            else:
+                currentNode = None
 
 
 
